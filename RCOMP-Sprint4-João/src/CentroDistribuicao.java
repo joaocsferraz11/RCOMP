@@ -37,7 +37,7 @@ public class CentroDistribuicao {
             if (nomeFich.equals("0")) {
                 break;
             }
-            File file = new File(nomeFich + ".txt");
+            File file = new File(nomeFich);
             // Get the size of the file
             long length = file.length();
             String frase = "0255255";

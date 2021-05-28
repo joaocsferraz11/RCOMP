@@ -52,7 +52,7 @@ class AlojadorThread implements Runnable {
                     text.replace(0,3,"");
                     newMessage = text.toString();*/
                     message= message + newMessage;
-                     System.out.println(message);
+                    System.out.println(message);
                 }
                 while(!newMessage.equals("0"));
 
