@@ -52,6 +52,7 @@ public class CentroDistribuicao {
                 frase = frase + ch;
                 count++;
                 if (count % 252 == 0) {
+                    System.out.println(frase);
                     listStrings.add(frase);
 
                     if (length - count >= 252) {
@@ -62,6 +63,7 @@ public class CentroDistribuicao {
                 }
 
                 if (length == count && count % 252 != 0) {
+                    System.out.println(frase);
                     listStrings.add(frase);
                 }
             }
