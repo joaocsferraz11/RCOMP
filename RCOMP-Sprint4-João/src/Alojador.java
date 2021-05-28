@@ -40,19 +40,21 @@ class AlojadorThread implements Runnable {
         try {
             sOut = new DataOutputStream(s.getOutputStream());
             sIn = new DataInputStream(s.getInputStream());
-            String message = "";
-            String newMessage;
-            String code;
+            byte [] message = new byte[0];
+            byte [] newMessage;
+            byte [] code;
 
 
                 do {
-                    newMessage = sIn.readUTF();
+                    int length = sIn.readInt();
+                    newMessage = new byte[length];
+                    sIn.readFully(message,0,message.length);
                     /*code = newMessage.substring(0,3);
                     StringBuffer text = new StringBuffer(newMessage);
                     text.replace(0,3,"");
                     newMessage = text.toString();*/
-                    message= message + newMessage;
-                    System.out.println(message);
+                    String string =  new String (message);
+                    System.out.println(string);
                 }
                 while(!newMessage.equals("0"));
 

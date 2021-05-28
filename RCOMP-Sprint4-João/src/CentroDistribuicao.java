@@ -1,5 +1,7 @@
 import java.io.*;
 import java.net.*;
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -40,7 +42,7 @@ public class CentroDistribuicao {
             File file = new File(nomeFich);
             // Get the size of the file
             long length = file.length();
-            String frase = "0255255";
+            String frase = "";
             List<String> listStrings = new ArrayList<>();
 
             BufferedReader r = new BufferedReader(new FileReader(nomeFich));
@@ -55,12 +57,8 @@ public class CentroDistribuicao {
                 if (count % 252 == 0) {
                     System.out.println(frase);
                     listStrings.add(frase);
+                    frase = "";
 
-                    if (length - count >= 252) {
-                        frase = "0255255";
-                    } else {
-                        frase = "0254" + (length - count);
-                    }
                 }
 
                 if (length == count && count % 252 != 0) {
@@ -69,10 +67,32 @@ public class CentroDistribuicao {
                 }
             }
 
-            while (!listStrings.isEmpty()) {
-                sOut.writeUTF(listStrings.get(0));
+            while (!listStrings.isEmpty() && listStrings.size()>1) {
+
+                ByteArrayOutputStream outputStream = new ByteArrayOutputStream( );
+
+
+                Charset charset = StandardCharsets.UTF_16;
+                byte[] byteArrrayCode = {0, (byte) 255, (byte) 255};
+                outputStream.write( byteArrrayCode);
+                byte[] byteArrray =  listStrings.get(0).getBytes(charset);
+                outputStream.write( byteArrray);
+                byte[] message = outputStream.toByteArray( );
+                sOut.write(message);
                 listStrings.remove(0);
             }
+            ByteArrayOutputStream outputStream = new ByteArrayOutputStream( );
+
+
+            Charset charset = StandardCharsets.UTF_16;
+            byte[] byteArrrayCode = {0, (byte) 254, (byte) listStrings.get(0).length()};
+            outputStream.write( byteArrrayCode);
+            byte[] byteArrray =  listStrings.get(0).getBytes(charset);
+            outputStream.write( byteArrray);
+            byte[] message = outputStream.toByteArray( );
+            sOut.write(message);
+            listStrings.remove(0);
+
             System.out.print("File sent");
         }
 
