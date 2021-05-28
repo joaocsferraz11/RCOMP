@@ -90,6 +90,7 @@ public class CentroDistribuicao {
             byte[] byteArrray =  listStrings.get(0).getBytes(charset);
             outputStream.write( byteArrray);
             byte[] message = outputStream.toByteArray( );
+            sOut.writeInt(message.length);
             sOut.write(message);
             listStrings.remove(0);
 
