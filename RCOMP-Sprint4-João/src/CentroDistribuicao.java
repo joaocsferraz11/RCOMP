@@ -46,10 +46,11 @@ public class CentroDistribuicao {
             BufferedReader r = new BufferedReader(new FileReader(nomeFich));
             int ch;
             int count = 0;
-
+            char character;
 
             while ((ch = r.read()) != -1) {
-                frase = frase + ch;
+                character = (char) ch;
+                frase = frase + character;
                 count++;
                 if (count % 252 == 0) {
                     System.out.println(frase);
